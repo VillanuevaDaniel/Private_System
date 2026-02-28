@@ -1,0 +1,219 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 2rem;
+  background-color: var(--bg-body);
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .login-container {
+  background-color: var(--bg-body);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#sistem {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.login-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 30%;
+  background-color: var(--accent-color-light);
+  color: var(--accent-color);
+  margin-bottom: 24px;
+}
+
+.dark-mode .login-icon-wrapper {
+  background-color: var(--accent-color-dark-bg);
+  color: var(--mint-color);
+}
+
+.login-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.dark-mode .login-title {
+  color: var(--text-color);
+}
+
+.dark-mode .login-subtitle {
+  color: var(--text-muted);
+}
+
+.login-form-box {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-color);
+}
+
+.dark-mode .login-form-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.char-count {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.8;
+  transition: color 0.2s ease;
+}
+
+.char-count.limit-reached {
+  color: #ef4444;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.dark-mode .form-label {
+  color: var(--text-muted);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.dark-mode .form-input {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-color-light);
+}
+
+.dark-mode .form-input:focus {
+  box-shadow: 0 0 0 2px var(--accent-color-dark-bg);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: var(--accent-color-hover);
+}
+
+/* Theme Toggle Button */
+.login-theme-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.login-theme-btn:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-color);
+  transform: scale(1.05);
+}
+
+.dark-mode .login-theme-btn:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-color);
+}
+
+/* Password Toggle */
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  padding-right: 40px; /* Space for the eye icon */
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  z-index: 2;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text-color);
+}
+
+.dark-mode .password-toggle-btn:hover {
+  color: var(--text-color);
+}
