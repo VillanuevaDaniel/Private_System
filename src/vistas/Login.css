@@ -159,6 +159,9 @@
 
 /* Theme Toggle Button */
 .login-theme-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
@@ -169,7 +172,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 100;
 }
 
 .login-theme-btn:hover {

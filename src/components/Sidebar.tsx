@@ -41,6 +41,13 @@ const Sidebar: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [expandedAreas, setExpandedAreas] = useState<string[]>([]);
   const [showRestrictedModal, setShowRestrictedModal] = useState(true);
+  const [fontSize, setFontSize] = useState('16px');
+
+  const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const size = e.target.value;
+    setFontSize(size);
+    document.documentElement.style.fontSize = size;
+  };
 
   useEffect(() => {
     const fetchModules = async () => {
@@ -159,6 +166,22 @@ const Sidebar: React.FC = () => {
       </div>
 
       <nav className="sidebar-nav">
+        <div className="font-size-selector">
+          <label className="font-size-label" htmlFor="font-size-select">
+            Tamaño de letra
+          </label>
+          <select
+            id="font-size-select"
+            className="font-size-select"
+            value={fontSize}
+            onChange={handleFontSizeChange}
+          >
+            <option value="16px">Pequeño</option>
+            <option value="20px">Normal</option>
+            <option value="22px">Grande</option>
+          </select>
+        </div>
+
         <NavLink
             to="/controlpanel"
             end
@@ -194,7 +217,7 @@ const Sidebar: React.FC = () => {
           const isExpanded = expandedAreas.includes(area);
 
           return (
-            <div key={area} className="nav-group">
+            <div key={area} className={`nav-group ${isExpanded ? 'is-expanded' : ''}`}>
               <button 
                 className={`nav-item nav-group-toggle ${isExpanded ? 'expanded active' : ''}`}
                 onClick={() => toggleArea(area)}
@@ -203,7 +226,9 @@ const Sidebar: React.FC = () => {
                   <Icon size={18} />
                   {area}
                 </div>
-                {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                {isExpanded 
+                  ? <ChevronDown size={16} className="chevron-icon" /> 
+                  : <ChevronRight size={16} className="chevron-icon" />}
               </button>
               
               {isExpanded && (
@@ -211,13 +236,12 @@ const Sidebar: React.FC = () => {
                   {areaModules.map(module => (
                     <NavLink
                       key={module.idModule}
-                      to="#"
+                      to={`/controlpanel/provisional/${module.idModule}`}
                       className={({ isActive }) =>
                         `nav-item nav-child ${isActive ? 'active' : ''}`
                       }
-                      title="Página en construcción"
+                      title={module.name}
                     >
-                      <span className="nav-indicator">•</span>
                       {module.name}
                     </NavLink>
                   ))}

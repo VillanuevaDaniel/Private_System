@@ -96,13 +96,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.control-panel-module-card:hover {
-  transform: translateY(-2px);
-  /* Sombra suave + borde simulado extra de 1px del color del área */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--area-color);
-  border-color: var(--area-color);
-}
-
 .control-panel-module-header {
   display: flex;
   align-items: center;
@@ -136,10 +129,7 @@
   gap: 1rem;
   transition: all 0.2s ease;
 }
-.control-panel-help-section:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--accent-color);
-  border-color: var(--accent-color);
-}
+
 .control-panel-help-title {
   font-size: 1.125rem;
   font-weight: 600;
