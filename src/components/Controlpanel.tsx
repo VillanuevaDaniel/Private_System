@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Briefcase, Archive, Microscope, Settings, BookOpen, ArrowRight } from 'lucide-react';
+import { startSystemTour } from './useTour';
 import './Controlpanel.css';
 
 interface ControlPanelProps {
@@ -14,7 +15,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ title }) => {
           {title}
         </h1>
       </div>
-
+    
       <div className="control-panel-card">
         <div className="control-panel-card-header">
           <div className="control-panel-icon-wrapper">
@@ -33,7 +34,26 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ title }) => {
           </ol>
         </div>
       </div>
-    
+
+      <div className="control-panel-help-section">
+        <div>
+          <h3 className="control-panel-help-title">
+            ¿Necesitas más ayuda?
+          </h3>
+          <p className="control-panel-help-text">
+           Comienza el tour guiado del sistema para aprender a usarlo.
+          </p>
+        </div>
+        <div className="control-panel-help-action">
+          <button id="tour-btn" className="control-panel-help-button" onClick={startSystemTour}>
+            Comenzar 
+            <span className="control-panel-help-button-icon">
+              <ArrowRight size={16} strokeWidth={2} />
+            </span>
+          </button>
+        </div>
+      </div>
+
       <div className="control-panel-section">
 
         <h2 className="control-panel-section-title">
@@ -113,25 +133,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ title }) => {
         </div>
       </div>
 
-      <div className="control-panel-help-section">
-        <div>
-          <h3 className="control-panel-help-title">
-            ¿Necesitas más ayuda?
-          </h3>
-          <p className="control-panel-help-text">
-           Utiliza nuestra demostración guiada del sistema.
-          </p>
-        </div>
-        <div className="control-panel-help-action">
-          <button className="control-panel-help-button">
-            Comenzar 
-            <span className="control-panel-help-button-icon">
-              <ArrowRight size={16} strokeWidth={2} />
-            </span>
-          </button>
-        </div>
-      </div>
-      
+
     </div>
   );
 };

@@ -19,7 +19,7 @@
 .provisional-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--prov-title-color);
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -30,6 +30,12 @@
 
 .provisional-desc {
   font-size: 0.95rem;
-  color: var(--prov-desc-color);
+  color: var(--text-color);
   margin: 0;
+}
+
+
+.dark-mode .provisional-title,
+.dark-mode .provisional-desc {
+  color: var(--text-primary);
 }

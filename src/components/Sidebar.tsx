@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -8,14 +8,18 @@ import {
   LayoutDashboard,
   Sun,
   Moon,
-  Shield,
-  Briefcase,
-  Archive,
-  Microscope,
-  Settings,
-  ChevronDown,
-  ChevronRight,
-  Menu
+  Users,
+  ShieldCheck,
+  BookOpen,
+  Handshake,
+  Send,
+  Leaf,
+  Camera,
+  FileBarChart,
+  CircleDot,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Settings2
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -39,14 +43,43 @@ const Sidebar: React.FC = () => {
   const [modules, setModules] = useState<GroupedModules>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [expandedAreas, setExpandedAreas] = useState<string[]>([]);
-  const [showRestrictedModal, setShowRestrictedModal] = useState(true);
-  const [fontSize, setFontSize] = useState('16px');
+  const [collapsed, setCollapsed] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
 
-  const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const size = e.target.value;
-    setFontSize(size);
-    document.documentElement.style.fontSize = size;
+  const [showRestrictedModal, setShowRestrictedModal] = useState(true);
+  const [scale, setScale] = useState('1');
+  
+  const configRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Si el panel de configuración está abierto y el click es fuera del footer (botón/panel)
+      if (configOpen && configRef.current && !configRef.current.contains(event.target as Node)) {
+        // Obviar clics que vengan del driver.js popover para no interferir con el tour
+        const target = event.target as HTMLElement;
+        if (!target.closest('.driver-popover')) {
+          setConfigOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [configOpen]);
+
+  const handleScaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    const num = parseFloat(value);
+    setScale(value);
+    const layout = document.querySelector<HTMLElement>('.app-layout');
+    if (layout) {
+      (layout.style as any).zoom = value;
+      // Ajustamos las dimensiones lógicas para que el resultado final (lógica * zoom) sea exactamente 100vh/100vw
+      layout.style.height = `${(100 / num).toFixed(6)}vh`;
+      layout.style.width = `${(100 / num).toFixed(6)}vw`;
+    }
   };
 
   useEffect(() => {
@@ -69,7 +102,6 @@ const Sidebar: React.FC = () => {
         }, {} as GroupedModules);
 
         setModules(grouped);
-        setExpandedAreas([]); 
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -80,23 +112,19 @@ const Sidebar: React.FC = () => {
     fetchModules();
   }, [user?.id]);
 
-  const toggleArea = (area: string) => {
-    setExpandedAreas(prev => 
-      prev.includes(area) 
-        ? prev.filter(a => a !== area) 
-        : [...prev, area]
-    );
-  };
 
-  const getAreaIcon = (area: string) => {
-    switch (area.toLowerCase()) {
-      case 'seguridad': return Shield;
-      case 'administrativo': return Briefcase;
-      case 'coleccion': return Archive;
-      case 'investigacion': return Microscope;
-      case 'sistema': return Settings;
-      default: return Menu;
-    }
+  const getModuleIcon = (name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes('usuario'))        return Users;
+    if (n.includes('perfil'))         return ShieldCheck;
+    if (n.includes('catalog'))        return BookOpen;
+    if (n.includes('ejemplar'))       return Bug;
+    if (n.includes('prestamo'))       return Handshake;
+    if (n.includes('determinar'))     return Send;
+    if (n.includes('ecolog'))         return Leaf;
+    if (n.includes('fotot'))          return Camera;
+    if (n.includes('reporte'))        return FileBarChart;
+    return CircleDot;
   };
 
 
@@ -107,21 +135,25 @@ const Sidebar: React.FC = () => {
                 <div className="sidebar-header">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <h1 className="sidebar-title">
-                            <Bug className="sidebar-logo-icon" />
                             <span>Barra de Navegación</span>
                         </h1>
-                        <button 
+                        <div 
+                            className={`theme-switch-wrapper ${theme === 'dark' ? 'is-dark' : 'is-light'}`}
                             onClick={toggleTheme}
-                            className="theme-toggle-btn"
                             title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
                         >
-                            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-                        </button>
+                            <div className="theme-switch-track">
+                                <div className="theme-switch-thumb"></div>
+                                <Sun className="theme-icon icon-sun" size={14} strokeWidth={2.5}/>
+                                <Moon className="theme-icon icon-moon" size={14} strokeWidth={2.5}/>
+                            </div>
+                        </div>
                     </div>
                     <p className="sidebar-subtitle">
                         Sin Acceso
                     </p>
                 </div>
+                
                 <div className="sidebar-nav">
                 </div>
                 <div className="sidebar-footer">
@@ -148,48 +180,35 @@ const Sidebar: React.FC = () => {
   if (error) return <aside className="sidebar">Error: {error}</aside>;
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h1 className="sidebar-title">
-            <Bug className="sidebar-logo-icon" />
-            <span>Entomología</span>
-          </h1>
-          <button 
-            onClick={toggleTheme}
-            className="theme-toggle-btn"
-            title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+    <div id="sidebar">
+    <aside className={`sidebar${collapsed ? ' sidebar-collapsed' : ''}`}>
+      <div id="sidebar-header" className="sidebar-header">
+        <div className="sidebar-header-title-row">
+          <button id="sidebar-collapse-btn"
+            className="sidebar-collapse-btn"
+            onClick={() => setCollapsed(!collapsed)}
+            title={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
           >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            {collapsed ? <PanelLeftOpen size={20} strokeWidth={2.5} /> : <PanelLeftClose size={20} strokeWidth={2.5} />}
           </button>
-        </div>
-      </div>
-
-      <nav className="sidebar-nav">
-        <div className="font-size-selector">
-          <label className="font-size-label" htmlFor="font-size-select">
-            Tamaño de letra
-          </label>
-          <select
-            id="font-size-select"
-            className="font-size-select"
-            value={fontSize}
-            onChange={handleFontSizeChange}
-          >
-            <option value="16px">Pequeño</option>
-            <option value="20px">Normal</option>
-            <option value="22px">Grande</option>
-          </select>
         </div>
 
         <NavLink
+            id="nav-dashboard"
             to="/controlpanel"
             end
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+            className={({ isActive }) => `nav-item nav-item-dashboard ${isActive ? 'active' : ''}`}
+            title={collapsed ? 'Panel de Control' : undefined}
         >
-            <LayoutDashboard size={18} />
-            Panel de Control
+            <LayoutDashboard size={20} />
+            <span className="nav-label">Panel de Control</span>
         </NavLink>
+      </div>
+
+      <nav className="sidebar-nav">
+
+
+
 
         {loading && <div style={{padding: '16px', fontSize: '0.9rem', color: '#666'}}>Cargando menú...</div>}
         
@@ -212,56 +231,94 @@ const Sidebar: React.FC = () => {
             </div>
         )}
 
-        {!loading && !error && Object.entries(modules).map(([area, areaModules]) => {
-          const Icon = getAreaIcon(area);
-          const isExpanded = expandedAreas.includes(area);
+        {!loading && !error && Object.entries(modules).map(([area, areaModules], idx) => {
 
           return (
-            <div key={area} className={`nav-group ${isExpanded ? 'is-expanded' : ''}`}>
-              <button 
-                className={`nav-item nav-group-toggle ${isExpanded ? 'expanded active' : ''}`}
-                onClick={() => toggleArea(area)}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Icon size={18} />
+            <div key={area} className="nav-group" id={idx === 0 ? 'nav-modules' : undefined}>
+              <div className="nav-section-header">
+                <span className="nav-section-label nav-label">
                   {area}
-                </div>
-                {isExpanded 
-                  ? <ChevronDown size={16} className="chevron-icon" /> 
-                  : <ChevronRight size={16} className="chevron-icon" />}
-              </button>
+                </span>
+              </div>
               
-              {isExpanded && (
-                <div className="nav-group-children">
-                  {areaModules.map(module => (
-                    <NavLink
-                      key={module.idModule}
-                      to={`/controlpanel/provisional/${module.idModule}`}
-                      className={({ isActive }) =>
-                        `nav-item nav-child ${isActive ? 'active' : ''}`
-                      }
-                      title={module.name}
-                    >
-                      {module.name}
-                    </NavLink>
-                  ))}
-                </div>
-              )}
+              <div className="nav-group-children">
+                {areaModules.map(module => (
+                  <NavLink
+                    key={module.idModule}
+                    to={`/controlpanel/provisional/${module.idModule}`}
+                    className={({ isActive }) =>
+                      `nav-item nav-child ${isActive ? 'active' : ''}`
+                    }
+                    title={module.name}
+                  >
+                    {(() => { const Icon = getModuleIcon(module.name); return <Icon size={18} />; })()}
+                    <span className="nav-label">{module.name}</span>
+                  </NavLink>
+                ))}
+              </div>
             </div>
           );
         })}
       </nav>
 
-      <div className="sidebar-footer">
-        <button
-          onClick={logout}
-          className="logout-btn"
-        >
-          <LogOut size={18} />
-          Cerrar Sesión
-        </button>
+      <div id="sidebar-footer" className="sidebar-footer" ref={configRef}>
+
+        {/* Panel de configuración flotando a la derecha */}
+        {configOpen && (
+          <div className="config-panel">
+            <div className="config-panel-row">
+              <span className="config-panel-label">Tema</span>
+              <div 
+                id="theme-toggle"
+                className={`theme-switch-wrapper ${theme === 'dark' ? 'is-dark' : 'is-light'}`}
+                onClick={toggleTheme}
+                title={theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+              >
+                <div className="theme-switch-track">
+                  <div className="theme-switch-thumb"></div>
+                  <Sun className="theme-icon icon-sun" size={14} strokeWidth={2.5}/>
+                  <Moon className="theme-icon icon-moon" size={14} strokeWidth={2.5}/>
+                </div>
+              </div>
+            </div>
+            <div className="config-panel-row" id="config-size-interface">
+              <span className="config-panel-label">Tamaño</span>
+              <select
+                className="font-size-select config-select"
+                value={scale}
+                onChange={handleScaleChange}
+              >
+                <option value="1">Normal</option>
+                <option value="1.2">Grande</option>
+                <option value="1.4">Muy Grande</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* Botones apilados: config encima de logout */}
+        <div className="footer-actions">
+          <button id="config-btn"
+            className={`sidebar-btn config-btn${configOpen ? ' config-btn-active' : ''}`}
+            onClick={() => setConfigOpen(o => !o)}
+            title={collapsed ? 'Configuración' : undefined}
+          >
+            <Settings2 size={20} />
+            <span className="nav-label">Configuración</span>
+          </button>
+          <button id="logout-btn"
+            onClick={logout}
+            className="logout-btn"
+            title={collapsed ? 'Cerrar Sesión' : undefined}
+          >
+            <LogOut size={20} />
+            <span className="nav-label">Cerrar Sesión</span>
+          </button>
+        </div>
+
       </div>
     </aside>
+    </div>
   );
 };
 

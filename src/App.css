@@ -1,7 +1,9 @@
 .app-layout {
-  min-height: 100vh;
+  display: flex;
+  height: 100vh;
   background-color: var(--bg-body);
   transition: background-color 0.3s ease;
+  overflow: hidden; /* Evita scroll de body cuando se usa zoom */
 }
 
 .dark-mode .app-layout {
@@ -9,9 +11,8 @@
 }
 
 .main-content {
-  margin-left: 260px;
+  flex: 1;
   padding: 32px;
-  height: 100vh;
   overflow-y: auto;
   color: var(--text-color);
 }
