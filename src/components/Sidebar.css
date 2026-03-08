@@ -13,13 +13,11 @@
   transition: width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), min-width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* ── Colapsada ───────────────────────────────────────────── */
 .sidebar-collapsed {
   width: 62px;
   min-width: 62px;
 }
 
-/* Quitar indentación a hijos en colapsado */
 .sidebar-collapsed .nav-child > svg {
   margin-left: 0;
 }
@@ -50,7 +48,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 
-/* Header en modo colapsado: icono→logo→tema en columna */
 .sidebar-icons-col {
   display: flex;
   flex-direction: column;
@@ -59,7 +56,6 @@
   width: 100%;
 }
 
-/* Header en modo expandido: dos filas */
 .sidebar-header-expanded {
   display: flex;
   flex-direction: column;
@@ -68,7 +64,7 @@
 }
 .sidebar-header-top {
   display: flex;
-  justify-content: space-between; /* Para que botón y control oscuro queden a los lados */
+  justify-content: space-between; 
 }
 .sidebar-header-title-row {
   display: flex;
@@ -82,10 +78,8 @@
 }
 
 .sidebar-collapsed .sidebar-nav {
-  overflow-y: auto !important; /* Habilita scroll vertical cuando el contenido supera la altura con zoom */
+  overflow-y: auto !important; 
 }
-
-/* Eliminadas las reglas que ocultaban el scrollbar en modo colapsado */
 
 .sidebar-nav::-webkit-scrollbar {
   width: 3px;
@@ -98,7 +92,7 @@
 
 /* ── Header ──────────────────────────────────────────────── */
 .sidebar-header {
-  padding: 18px 10px 14px; /* Reducido el padding horizontal para alineación con iconos */
+  padding: 18px 10px 14px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -121,7 +115,6 @@
   overflow: hidden;
 }
 
-/* Ocultar título sin saltos en colapsado */
 .sidebar-collapsed .sidebar-title {
   opacity: 0;
   visibility: hidden;
@@ -148,7 +141,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px; /* Área táctil extra */
+  padding: 4px; 
   border-radius: 20px;
   transition: transform 0.2s ease;
   flex-shrink: 0;
@@ -170,10 +163,9 @@
   padding: 0 4px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: background 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
-  overflow: hidden; /* Mantener la pastilla contenida */
+  overflow: hidden; 
 }
 
-/* La pastilla que se mueve */
 .theme-switch-thumb {
   position: absolute;
   top: 2px;
@@ -183,29 +175,25 @@
   background: var(--bg-card);
   border-radius: 50%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Rebote elástico premium */
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
   z-index: 1;
 }
 
-/* Posicionar los iconos debajo de la pastilla */
 .theme-icon {
   z-index: 0;
   color: var(--text-muted);
   transition: color 0.4s ease;
 }
-
-/* Cuando está en Dark (Luna seleccionada) -> Thumb a la derecha */
 .is-dark .theme-switch-thumb {
-  transform: translateX(24px); /* 50px ancho - 4px padding total - 20px bola - 2px margen interior = 24px */
+  transform: translateX(24px); 
 }
 
 .is-dark .icon-moon {
-  color: var(--accent-color); /* Resaltar icono activo según el tema */
+  color: var(--accent-color); 
 }
 
-/* Cuando está en Light (Sol seleccionado) -> Thumb a la izquierda (default) */
 .is-light .icon-sun {
-  color: #fbbf24; /* Color amarillo sol */
+  color: #fbbf24; 
 }
 
 
@@ -246,8 +234,8 @@
 .font-size-select:hover,
 .font-size-select:focus {
   background-color: var(--bg-subtle);
-  border-color: var(--border-color); /* Lo neutro de nuevo */
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Efecto de tarjeta en lugar de borde de seleccion */
+  border-color: var(--border-color); 
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .font-size-select option {
@@ -259,7 +247,7 @@
 /* ── Nav ─────────────────────────────────────────────────── */
 .sidebar-nav {
   flex: 1;
-  min-height: 0; /* Permite que el contenedor se encoja y respete el 100vh de la aplicación sin comerse el primer elemento */
+  min-height: 0;
   padding: 2px 10px 10px;
   overflow-y: auto;
   display: flex;
@@ -279,25 +267,23 @@
   font-weight: 500;
   color: var(--text-muted);
   text-decoration: none;
-  transition: all 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); /* Animar fondo, color, padding y height fluidamente */
+  transition: all 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); 
   border: none;
   position: relative;
   cursor: pointer;
-  overflow: hidden; /* Evita desborde del nav-label en transición */
-  flex-shrink: 0; /* Prevenir que el panel colapse su altura en resoluciones pequeñas/zoom */
+  overflow: hidden; 
+  flex-shrink: 0; 
 }
 
-  /* El icono siempre ocupa exactamente el mismo espacio físico */
 .nav-item > svg,
 .nav-item > span > svg,
 .logout-btn > svg,
 .config-btn > svg {
   min-width: 20px;
   flex-shrink: 0;
-  display: block; /* Para evitar saltos de línea extraños */
+  display: block;
 }
 
-/* Etiqueta de texto (Navegación, Botones) */
 .nav-label {
   white-space: nowrap;
   opacity: 1;
@@ -305,7 +291,6 @@
   overflow: hidden;
 }
 
-/* Ocultar etiquetas en modo colapsado */
 .sidebar-collapsed .nav-label {
   opacity: 0;
   width: 0;
@@ -321,17 +306,15 @@
   background: var(--bg-subtle);
   color: var(--text-color);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
-  text-shadow: 0 0 0.8px currentColor, 0 0 0.3px currentColor; /* Mayor grosor y brillo visual */
+  text-shadow: 0 0 0.8px currentColor, 0 0 0.3px currentColor; 
 }
 
-/* Dashboard link destacado en el Header */
 .nav-item-dashboard {
   color: var(--text-color);
   font-weight: 500;
-  margin-top: 4px; /* Separación del botón de colapso */
+  margin-top: 4px; 
 }
 
-/* En modo colapsado, queremos que el dashboard se vea centrado y alineado con el botón superior */
 .sidebar-collapsed .nav-item-dashboard {
   margin-left: 0;
   padding: 0 11px;
@@ -348,10 +331,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 14px;
-  flex-shrink: 0; /* Igualmente evitar compresión de grupos completos */
+  flex-shrink: 0; 
 }
 
-/* Cabecera de sección: tipo label uppercase */
 .nav-section-header {
   display: flex;
   align-items: center;
@@ -366,7 +348,6 @@
   overflow: hidden;
 }
 
-/* Ocultar encabezados de grupos (área) al colapsar para que no empujen verticalmente con un salto */
 .sidebar-collapsed .nav-section-header {
   height: 0;
   padding: 0 10px;
@@ -408,7 +389,7 @@
 }
 
 .nav-child {
-  padding: 10px 11px !important; /* Mismo padding para todos */
+  padding: 10px 11px !important; 
   font-size: 0.88rem;
   font-weight: 400 !important;
   color: var(--text-muted);
@@ -416,7 +397,6 @@
   background: transparent;
 }
 
-/* Dar la indentación con margen al icono (para que sea estable en colapso) */
 .nav-child > svg {
   margin-left: 4px;
 }
@@ -427,13 +407,12 @@
   border-color: transparent !important;
 }
 
-/* Módulo activo: fondo sólido + barra izquierda */
 .nav-child.active {
   background: var(--bg-subtle) !important;
   color: var(--text-color) !important;
   border-color: transparent !important;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
-  text-shadow: 0 0 0.8px currentColor, 0 0 0.3px currentColor; /* Mayor grosor y brillo visual */
+  text-shadow: 0 0 0.8px currentColor, 0 0 0.3px currentColor; 
 }
 
 .nav-child.active::before {
@@ -484,14 +463,12 @@
   position: relative;
 }
 
-/* Fila inferior: config + logout apilados */
 .footer-actions {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* El botón de configuración ahora es un sidebar-btn modificado para el footer */
 .config-btn-active {
   background: var(--bg-subtle) !important;
   color: var(--text-color) !important;
@@ -508,33 +485,32 @@
   padding: 0 11px;
   border-radius: 8px;
   border: none;
-  background: rgba(239, 68, 68, 0.12); /* Base más notoria */
+  background: rgba(239, 68, 68, 0.12); 
   font-size: 0.95rem;
   font-weight: 600;
-  color: #EF4444; /* Rojo fuerte Base */
+  color: #EF4444; 
   cursor: pointer;
   transition: all 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
   font-family: inherit;
   overflow: hidden;
 }
 .logout-btn:hover {
-  background: rgba(239, 68, 68, 0.85); /* Rojo ligeramente menos intenso */
-  color: #fff; /* Texto blanco en hover */
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25); /* Glow un poco más suave */
+  background: rgba(239, 68, 68, 0.85); 
+  color: #fff; 
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25); 
 }
 
 .logout-btn:active {
-  background: #dc2626; /* Rojo más oscuro al presionar */
+  background: #dc2626; 
   box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
   transform: scale(0.96);
   color: #fff;
 }
 
-/* Panel de configuración (Floating Card to the right) */
 .config-panel {
   position: absolute;
-  bottom: 10px; /* Alineado con el fondo del footer */
-  left: calc(100% + 12px); /* A la derecha de la sidebar flotando */
+  bottom: 10px; 
+  left: calc(100% + 12px); 
   width: max-content;
   min-width: 200px;
   background: var(--bg-card);
@@ -555,11 +531,10 @@
   to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
-/* Triángulo indicador (opcional para dar aspecto de tooltip card) */
 .config-panel::before {
   content: '';
   position: absolute;
-  bottom: 55px; /* Alineado al centro del botón config */
+  bottom: 55px; 
   left: -6px;
   width: 10px;
   height: 10px;
