@@ -53,9 +53,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Si el panel de configuración está abierto y el click es fuera del footer (botón/panel)
       if (configOpen && configRef.current && !configRef.current.contains(event.target as Node)) {
-        // Obviar clics que vengan del driver.js popover para no interferir con el tour
         const target = event.target as HTMLElement;
         if (!target.closest('.driver-popover')) {
           setConfigOpen(false);
@@ -76,7 +74,6 @@ const Sidebar: React.FC = () => {
     const layout = document.querySelector<HTMLElement>('.app-layout');
     if (layout) {
       (layout.style as any).zoom = value;
-      // Ajustamos las dimensiones lógicas para que el resultado final (lógica * zoom) sea exactamente 100vh/100vw
       layout.style.height = `${(100 / num).toFixed(6)}vh`;
       layout.style.width = `${(100 / num).toFixed(6)}vw`;
     }
@@ -263,7 +260,6 @@ const Sidebar: React.FC = () => {
 
       <div id="sidebar-footer" className="sidebar-footer" ref={configRef}>
 
-        {/* Panel de configuración flotando a la derecha */}
         {configOpen && (
           <div className="config-panel">
             <div className="config-panel-row">
@@ -291,12 +287,12 @@ const Sidebar: React.FC = () => {
                 <option value="1">Normal</option>
                 <option value="1.2">Grande</option>
                 <option value="1.4">Muy Grande</option>
+                <option value="1.8"> Extra grande</option>
               </select>
             </div>
           </div>
         )}
 
-        {/* Botones apilados: config encima de logout */}
         <div className="footer-actions">
           <button id="config-btn"
             className={`sidebar-btn config-btn${configOpen ? ' config-btn-active' : ''}`}

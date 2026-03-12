@@ -16,7 +16,6 @@ const dbConfig = {
 
 const pool = mysql.createPool(dbConfig);
 
-// Prueba rápida de conexión al iniciar
 pool.getConnection((err, connection) => {
   if (err) {
     console.error('Error de conexión a la base de datos:', err.message);
